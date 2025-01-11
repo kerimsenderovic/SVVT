@@ -63,7 +63,7 @@ public class DevOpsSuccessStoryTest {
         twitterButton.click();
 
 
-        wait.until(ExpectedConditions.urlToBe("https://x.com/intent/post?text=Super+fast+and+easy+Social+Media+Sharing+Buttons.+No+JavaScript.+No+tracking.&url=https%3A%2F%2Fitkarijera.ba%2Fuspjesne-price%2F144%2Fkako-je-adis-postao-devops-inzenjer"));
+
         String actualUrl = driver.getCurrentUrl();
         String expectedUrl = "https://x.com/intent/post?text=Super+fast+and+easy+Social+Media+Sharing+Buttons.+No+JavaScript.+No+tracking.&url=https%3A%2F%2Fitkarijera.ba%2Fuspjesne-price%2F144%2Fkako-je-adis-postao-devops-inzenjer";
         assertTrue(actualUrl.equals(expectedUrl), "The Twitter sharing button did not redirect to the correct URL.");

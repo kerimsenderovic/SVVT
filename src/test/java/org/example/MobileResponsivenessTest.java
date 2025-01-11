@@ -95,4 +95,27 @@ public class MobileResponsivenessTest {
 
         System.out.println("Test Passed: Page is responsive on iPad Pro (12.9-inch).");
     }
+    @Test
+    public void testMobileResponsivenessAndroid() {
+        driver.get(baseUrl);
+
+        driver.manage().window().setSize(new Dimension(412, 732));
+
+        Dimension expectedSize = new Dimension(412, 732);
+        Dimension actualSize = driver.manage().window().getSize();
+        assertEquals(expectedSize, actualSize, "The page is not rendered in Pixel 3 XL resolution");
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        WebElement startButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(),'Kako i gdje početi?')]")));
+        assertTrue(startButton.isDisplayed(), "The 'Kako i gdje početi?' button is not displayed.");
+
+        WebElement header = wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("header")));
+        WebElement footer = wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("footer")));
+
+        assertTrue(header.isDisplayed(), "Header is not displayed correctly.");
+        assertTrue(footer.isDisplayed(), "Footer is not displayed correctly.");
+
+        System.out.println("Test Passed: Page is responsive on Android device (Pixel 3 XL).");
+    }
 }

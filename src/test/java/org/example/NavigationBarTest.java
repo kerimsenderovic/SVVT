@@ -10,9 +10,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import java.time.Duration;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -43,19 +41,15 @@ public class NavigationBarTest {
     public void testNavigateToITSektor() {
         driver.get(baseUrl);
 
-
         WebElement itSektorLink = driver.findElement(By.linkText("IT sektor"));
         itSektorLink.click();
-
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         WebElement dropdownContent = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//*[@id='tabletNavBar']/div/nav/div/ul/li[2]/div")
         ));
 
-
         assertTrue(dropdownContent.isDisplayed(), "Dropdown content for IT sektor is not displayed.");
-
         System.out.println("Test Passed: IT sektor dropdown displayed.");
     }
 
@@ -63,23 +57,55 @@ public class NavigationBarTest {
     public void testNavigateToNovosti() {
         driver.get(baseUrl);
 
-
         WebElement itSektorLink = driver.findElement(By.linkText("IT sektor"));
         itSektorLink.click();
 
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(
+                ExpectedConditions.visibilityOfElementLocated(By.linkText("Novosti"))
+        );
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement novostiLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//*[@id='tabletNavBar']/div/nav/div/ul/li[2]/div/span[1]/a")
-        ));
+        WebElement novostiLink = driver.findElement(By.linkText("Novosti"));
         novostiLink.click();
 
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(
+                ExpectedConditions.urlToBe("https://itkarijera.ba/vijesti")
+        );
 
-        String expectedUrl = "https://itkarijera.ba/vijesti";
-        String actualUrl = driver.getCurrentUrl();
-
-        assertEquals(expectedUrl, actualUrl, "Failed to navigate to /vijesti after clicking Novosti.");
-
-        System.out.println("Test Passed: Navigated to Novosti (/vijesti).");
+        assertEquals("https://itkarijera.ba/vijesti", driver.getCurrentUrl(), "Failed to navigate to vijesti.");
     }
+    @Test
+    public void testNavigateToITKarijera() {
+        driver.get(baseUrl);
+
+        WebElement itKarijeraLink = driver.findElement(By.linkText("IT karijera"));
+        itKarijeraLink.click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebElement dropdownContent = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//*[@id='item_31']")
+        ));
+
+        assertTrue(dropdownContent.isDisplayed(), "Dropdown content for IT karijera is not displayed.");
+        System.out.println("Test Passed: IT karijera dropdown displayed.");
+    }
+
+    @Test
+    public void FAQ() {
+        driver.get(baseUrl);
+
+        WebElement itKarijeraLink = driver.findElement(By.linkText("IT karijera"));
+        itKarijeraLink.click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement faqLink = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//*[@id='tabletNavBar']/div/nav/div/ul/li[3]/div/span[5]/a")
+        ));
+
+        faqLink.click();
+
+        wait.until(ExpectedConditions.urlToBe("https://itkarijera.ba/html-page/97/cesto-postavljana-pitanja-faq"));
+
+        assertEquals("https://itkarijera.ba/html-page/97/cesto-postavljana-pitanja-faq", driver.getCurrentUrl(), "Failed to navigate to FAQ.");
+    }
+
 }

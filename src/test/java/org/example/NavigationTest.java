@@ -16,6 +16,7 @@ public class NavigationTest {
     private static WebDriver driver;
     private static String baseUrl;
     private static String baseUrl1;
+    private static String baseUrl2;
 
     @BeforeAll
     public static void setUp() {
@@ -29,6 +30,7 @@ public class NavigationTest {
         driver = new ChromeDriver(options);
         baseUrl = "https://itkarijera.ba";
         baseUrl1="https://edu.itkarijera.ba/login/index.php";
+        baseUrl2="https://itkarijera.ba/html-page/34/o-portalu";
     }
 
     @AfterAll
@@ -84,8 +86,33 @@ public class NavigationTest {
         String expectedUrl = "https://edu.itkarijera.ba/login/index.php#tab-678255d187d121";
         expectedUrl = expectedUrl.replaceAll("/+$", "");
 
-        assertEquals(expectedUrl, currentUrl, "Navigation failed for 'Kako i gdje početi?' link");
+        assertEquals(expectedUrl, currentUrl, "Navigation failed ");
 
+
+
+    }
+    @Test
+    public void facebook() throws InterruptedException {
+
+        driver.get(baseUrl2);
+
+
+        WebElement kakoPocetiButton = driver.findElement(By.xpath("/html/body/app-root/app-pages-home/main/app-html-page-view/div/div[2]/div[2]/div[1]/app-share-buttons/a[1]/div"));
+
+
+        kakoPocetiButton.click();
+
+
+        Thread.sleep(2000);
+
+
+        String currentUrl = driver.getCurrentUrl();
+
+
+        String expectedUrl = "https://www.facebook.com/share_channel/";
+        expectedUrl = expectedUrl.replaceAll("/+$", "");
+
+        assertEquals(expectedUrl, currentUrl, "Navigation failed ");
 
 
     }

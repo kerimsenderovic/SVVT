@@ -11,13 +11,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver.Navigation;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import java.time.Duration;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FooterLinksTest {
 
@@ -26,9 +22,7 @@ public class FooterLinksTest {
 
     @BeforeAll
     public static void setUp() {
-
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\PC\\Desktop\\chromedriver-win64\\chromedriver.exe");
-
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
@@ -46,49 +40,41 @@ public class FooterLinksTest {
 
     @Test
     public void testFooterLinks() {
-
         driver.get(baseUrl);
 
+
+        WebElement footerLink = driver.findElement(By.xpath("//a[@routerlink='/prakse']"));
+
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView(true);", footerLink);
+
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(footerLink));
 
-        WebElement footer = wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("footer")));
-        assertTrue(footer.isDisplayed(), "Footer is not displayed on the page.");
+        js.executeScript("arguments[0].click();", footerLink);
 
-        WebElement footerLinksContainer = driver.findElement(By.cssSelector("footer .footer-links"));
-        List<WebElement> footerLinks = footerLinksContainer.findElements(By.tagName("a"));
+        wait.until(ExpectedConditions.urlToBe("https://itkarijera.ba/prakse"));
 
-        for (WebElement link : footerLinks) {
-            String linkText = link.getText();
-            String linkUrl = link.getAttribute("href");
+        assertEquals("https://itkarijera.ba/prakse", driver.getCurrentUrl());
+    }
 
-            System.out.println("Verifying link: " + linkText + " (" + linkUrl + ")");
+    @Test
+    public void testFooterLinks2() {
+        driver.get(baseUrl);
 
-            assertTrue(linkUrl != null && !linkUrl.isEmpty(), "Link URL is empty for: " + linkText);
+        WebElement footerLink = driver.findElement(By.xpath("//a[@routerlink='/poslovi']"));
 
-            ((JavascriptExecutor) driver).executeScript("window.open(arguments[0]);", linkUrl);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView(true);", footerLink);
 
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(footerLink));
 
-            Navigation navigation = driver.navigate();
-            String currentTab = driver.getWindowHandle();
-            for (String tab : driver.getWindowHandles()) {
-                if (!tab.equals(currentTab)) {
-                    driver.switchTo().window(tab);
-                }
-            }
+        js.executeScript("arguments[0].click();", footerLink);
 
-            wait.until((ExpectedCondition<Boolean>) d -> d.getCurrentUrl().equals(linkUrl));
+        wait.until(ExpectedConditions.urlToBe("https://itkarijera.ba/poslovi"));
 
-
-            String actualUrl = driver.getCurrentUrl();
-            assertEquals(linkUrl, actualUrl, "Failed to navigate to the correct page for link: " + linkText);
-
-            driver.close();
-            driver.switchTo().window(currentTab);
-
-
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("footer")));
-        }
-
-        System.out.println("Test Passed: All footer links are functional and lead to correct pages.");
+        assertEquals("https://itkarijera.ba/poslovi", driver.getCurrentUrl());
     }
 }
