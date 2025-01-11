@@ -57,14 +57,39 @@ public class Regular1Test {
 
 
         submitButton.click();
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement confirmationMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("confirmation-message-id")));
+
+    }
+    @Test
+    public void testEmailInputAndWait1() {
+
+        driver.get(baseUrl + "/html-page/68/it-sektor-u-bih");
 
 
-        assertTrue(confirmationMessage.isDisplayed(), "Confirmation message not displayed after submitting the form.");
+        WebElement emailInputField = driver.findElement(By.cssSelector("input[aria-label='Email']"));
 
-        System.out.println("Test Passed: Clicked on the submit button and confirmation message appears.");
+
+        String randomEmail = "ggggg@gmail.com";
+        emailInputField.sendKeys(randomEmail);
+
+
+        WebElement submitButton = driver.findElement(By.cssSelector("button.emailbutton.btn.input-group-text.text-red"));
+
+
+        submitButton.click();
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 }

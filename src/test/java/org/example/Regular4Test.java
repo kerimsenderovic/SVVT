@@ -41,6 +41,26 @@ public class Regular4Test {
 
 
     }
+    @Test
+    public void testCalendarNextButton1() {
+        driver.get("https://itkarijera.ba/dogadjaji?filter=%7B%22month%22:2,%22year%22:2025%7D");
+
+        WebElement element=driver.findElement(By.xpath("/html/body/app-root/app-pages-home/main/app-events/div/app-events-calendar/div/app-calendar-header/div/div/nav/a/div/div/div/a[2]/i"));
+        element.click();
+        assertEquals("https://itkarijera.ba/dogadjaji?filter=%7B%22month%22:3,%22year%22:2025%7D", driver.getCurrentUrl());
+
+
+    }
+    @Test
+    public void testCalendarNextButton2() {
+        driver.get("https://itkarijera.ba/dogadjaji?filter=%7B%22month%22:3,%22year%22:2025%7D");
+
+        WebElement element=driver.findElement(By.xpath("/html/body/app-root/app-pages-home/main/app-events/div/app-events-calendar/div/app-calendar-header/div/div/nav/a/div/div/div/a[1]/i"));
+        element.click();
+        assertEquals("https://itkarijera.ba/dogadjaji?filter=%7B%22month%22:2,%22year%22:2025%7D", driver.getCurrentUrl());
+
+
+    }
 
     @AfterAll
     public static void tearDown() {

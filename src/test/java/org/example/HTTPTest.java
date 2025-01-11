@@ -3,6 +3,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -51,5 +53,25 @@ public class HTTPTest {
 
         String currentUrl = driver.getCurrentUrl();
         assertTrue(currentUrl.startsWith("https://itkarijera.ba"), "URL should be using HTTPS");
+    }
+    @Test
+    public void testSecureCookies() {
+
+        driver.get("https://itkarijera.ba");
+
+
+        Set<Cookie> cookies = driver.manage().getCookies();
+
+
+        boolean secureCookieFound = false;
+        for (org.openqa.selenium.Cookie cookie : cookies) {
+            if (cookie.isSecure()) {
+                secureCookieFound = true;
+                break;
+            }
+        }
+
+
+        assertTrue(secureCookieFound, "A secure cookie should be set.");
     }
 } 

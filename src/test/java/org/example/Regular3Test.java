@@ -34,7 +34,7 @@ public class Regular3Test {
     }
 
     @Test
-    public void testSelectSarajevoBanjaLukaTuzlaCheckboxes() {
+    public void testSelectSarajevoCheckboxes() {
         driver.get(baseUrl);
 
 
@@ -43,12 +43,53 @@ public class Regular3Test {
 
 
         WebElement sarajevoCheckbox = driver.findElement(By.id("1_Sarajevo"));
-        WebElement banjaLukaCheckbox = driver.findElement(By.id("2_Banja Luka"));
-        WebElement tuzlaCheckbox = driver.findElement(By.id("3_Tuzla"));
-
 
         sarajevoCheckbox.click();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(sarajevoCheckbox.isSelected(), "Sarajevo checkbox is not selected.");
+
+    }
+    @Test
+    public void testSelectBanjaLukaCheckboxes() {
+        driver.get(baseUrl);
+
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form[novalidate]")));
+
+        WebElement banjaLukaCheckbox = driver.findElement(By.id("2_Banja Luka"));
+
         banjaLukaCheckbox.click();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
+        assertTrue(banjaLukaCheckbox.isSelected(), "Banja Luka checkbox is not selected.");
+
+    }
+    @Test
+    public void testSelectTuzlaCheckboxes() {
+        driver.get(baseUrl);
+
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form[novalidate]")));
+
+
+
+        WebElement tuzlaCheckbox = driver.findElement(By.id("3_Tuzla"));
+
         tuzlaCheckbox.click();
 
 
@@ -58,9 +99,6 @@ public class Regular3Test {
             e.printStackTrace();
         }
 
-
-        assertTrue(sarajevoCheckbox.isSelected(), "Sarajevo checkbox is not selected.");
-        assertTrue(banjaLukaCheckbox.isSelected(), "Banja Luka checkbox is not selected.");
         assertTrue(tuzlaCheckbox.isSelected(), "Tuzla checkbox is not selected.");
     }
 
